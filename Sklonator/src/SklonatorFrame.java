@@ -1,6 +1,9 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +26,10 @@ public class SklonatorFrame extends JFrame implements ActionListener
 	public SklonatorFrame() 
 	{
 		super("Склонятор");
+		
+		Font font = new Font("Verdana", Font.PLAIN, 16);
+		outputTextArea.setFont(font);
+		outputTextArea.setForeground(Color.GRAY);
 						
 		button.addActionListener(this);
 		
@@ -32,7 +39,7 @@ public class SklonatorFrame extends JFrame implements ActionListener
 		this.add(button, BorderLayout.SOUTH);
 		this.add(new JScrollPane(outputTextArea), BorderLayout.CENTER);
 		
-		this.setSize(400,600);
+		this.setSize(400,400);
 		this.setLocation(250, 100);
 		this.setVisible(true);
 			
@@ -42,6 +49,19 @@ public class SklonatorFrame extends JFrame implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent arg0) 
 	{
-		SklonatorAPI.getResults(inputTextField.getText());
+		fillTextAreaWithResult(SklonatorAPI.getResults(inputTextField.getText()));
+	}
+
+	private void fillTextAreaWithResult(Vector<String> results) 
+	{
+		StringBuilder builder = new StringBuilder();
+		
+		for (String string : results) 
+		{
+			builder.append(string);
+			builder.append(System.getProperty("line.separator"));
+		}
+		
+		outputTextArea.setText(builder.toString());
 	}
 }
